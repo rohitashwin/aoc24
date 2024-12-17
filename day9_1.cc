@@ -23,6 +23,7 @@ vector<u8> parse_input(const string& filename)
     file.close();
     return in;
 }
+
 void print_sequence(const vector<u8>& in)
 {
     cout << "Size: " << in.size() << endl;
@@ -49,6 +50,8 @@ unsigned long long compute_checksum(const vector<u8>& in)
     {
         // if(front_index >= back_index) break;
 
+        if(front_index % 2 == 0 && front_index >= back_index) break;
+
         if(fi <= 0)
         {
             front_index++;
@@ -63,17 +66,15 @@ unsigned long long compute_checksum(const vector<u8>& in)
             bi = in[back_index];
         }
 
-        if(front_index >= back_index) break;
-
         if(front_index % 2 == 0)
         {
-            cout << "[F] Checksum += " << curr_pos << " * " << front_id << endl;
+            // cout << "[F] Checksum += " << curr_pos << " * " << front_id << endl;
             checksum += curr_pos * front_id;
             fi--;
         }
         else
         {
-            cout << "[B] Checksum += " << curr_pos << " * " << back_id << endl;
+            // cout << "[B] Checksum += " << curr_pos << " * " << back_id << endl;
             checksum += curr_pos * back_id;
             fi--;
             bi--;
@@ -87,7 +88,7 @@ unsigned long long compute_checksum(const vector<u8>& in)
 
 int main()
 {
-    const string filename = "inputs/test.txt";
+    const string filename = "inputs/day9.txt";
     vector<u8> in = parse_input(filename);
     unsigned long long checksum = compute_checksum(in);
     cout << "Checksum: " << checksum << endl;
